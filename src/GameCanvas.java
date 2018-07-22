@@ -74,7 +74,7 @@ public class GameCanvas extends JPanel {
 
         this.graphics.drawImage(this.enermyImage, this.positionXEnermy, this.positionYEnermy, 15, 15, null);
 
-        //xu ly va cham cua Player
+        //di chuyen Player
         if(this.positionYPlayer < 0) {
             this.positionYPlayer = 580;
             this.positionXPlayer = rd.nextInt(1000);
@@ -93,13 +93,13 @@ public class GameCanvas extends JPanel {
             this.positionYPlayer = rd.nextInt(580);
         }
 
-        //xu ly va cham cua Star
+        //di chuyen Star
         if(this.positionXStar < 0) {
             this.positionXStar = 1000;
             this.positionYStar = rd.nextInt(580);
         }
-        
-        //xu ly va cham cua Enermy
+
+        //di chuyen Enermy
         if(this.positionXEnermy < 0 || this.positionXEnermy > 1000) moveX = -moveX;
         if(this.positionYEnermy < 0 || this.positionYEnermy > 580) moveY = -moveY;
         this.positionXEnermy += moveX;
