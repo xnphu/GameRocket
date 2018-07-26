@@ -9,12 +9,28 @@ public class GameWindow extends JFrame {
     private GameCanvas gameCanvas;
     private long lastTime = 0;
 
-    public GameWindow() {
-        this.setSize(1024, 640);
 
+    public GameWindow() {
+        this.setSize(1024, 600);
+
+        this.setupGameCanvas();
+
+        this.event();
+
+        this.setVisible(true);
+    }
+
+    private void setupGameCanvas() {
         this.gameCanvas = new GameCanvas();
         this.add(this.gameCanvas);
+    }
 
+    private void event() {
+        this.keyboardEvent();
+        this.windowEvent();
+    }
+
+    private void keyboardEvent() {
         this.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -24,18 +40,17 @@ public class GameWindow extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    gameCanvas.positionXPlayer -= 5;
+                    gameCanvas.player.xPoints[0] -= gameCanvas.player.velocity;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    gameCanvas.positionXPlayer += 5;
+                    gameCanvas.player.xPoints[0] += gameCanvas.player.velocity;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    gameCanvas.positionYPlayer -= 5;
+                    gameCanvas.player.yPoints[0] -= gameCanvas.player.velocity;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    gameCanvas.positionYPlayer += 5;
+                    gameCanvas.player.yPoints[0] += gameCanvas.player.velocity;
                 }
-
             }
 
             @Override
@@ -45,24 +60,24 @@ public class GameWindow extends JFrame {
                 }
             }
         });
+    }
 
+    private void windowEvent() {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(1);
             }
         });
-
-        this.setVisible(true);
     }
 
     public void gameLoop() {
         while (true) {
             long currentTime = System.nanoTime();
             if (currentTime - this.lastTime >= 17_000_000) {
-                this.gameCanvas.positionXStar -= 3;
-
+                this.gameCanvas.runAll();
                 this.gameCanvas.renderAll();
+                this.gameCanvas.playerMove();
                 this.lastTime = currentTime;
             }
         }
