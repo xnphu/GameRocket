@@ -15,10 +15,6 @@ public class GameCanvas extends JPanel {
     public Player player = new Player();
 
     private BufferedImage backBuffered;
-    private BufferedImage playerImage;
-
-//    public int positionXPlayer = 600;
-//    public int positionYPlayer = 200;
 
     private Graphics graphics;
 
@@ -48,7 +44,6 @@ public class GameCanvas extends JPanel {
         this.setupStar();
         this.setupEnermy();
         this.setupPlayer();
-//        this.playerImage = this.loadImage("resources/images/circle.png");
     }
 
     private void setupStar() {
@@ -75,8 +70,6 @@ public class GameCanvas extends JPanel {
         this.stars.forEach(star -> star.render(graphics));
 
         this.enermies.forEach(enermy -> enermy.render(graphics));
-
-//        this.graphics.drawImage(this.playerImage, this.positionXPlayer, this.positionYPlayer, 20, 20, null);
 
         this.player.render(graphics);
 
@@ -139,7 +132,6 @@ public class GameCanvas extends JPanel {
     }
 
     public void playerMove() {
-//        Player player = new Player();
         if (player.xPoints[0] > 1024 && player.xPoints[1] > 1024 && player.xPoints[2] > 1024) {
             player.xPoints[0] = 0;
             createPlayer();
