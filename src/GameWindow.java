@@ -9,7 +9,6 @@ public class GameWindow extends JFrame {
     private GameCanvas gameCanvas;
     private long lastTime = 0;
 
-
     public GameWindow() {
         this.setSize(1024, 600);
 
@@ -40,23 +39,24 @@ public class GameWindow extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    gameCanvas.player.xPoints[0] -= gameCanvas.player.velocity;
+                    gameCanvas.player.angle -= 5.0;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    gameCanvas.player.xPoints[0] += gameCanvas.player.velocity;
+                    gameCanvas.player.angle += 5.0;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    gameCanvas.player.yPoints[0] -= gameCanvas.player.velocity;
+                    gameCanvas.player.velocity.multiply(10);
                 }
-                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    gameCanvas.player.yPoints[0] += gameCanvas.player.velocity;
-                }
+
+                gameCanvas.player.velocity.set(
+                        new Vector2D(3.5f, 0).rotate(gameCanvas.player.angle)
+                );
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    System.out.println("Space Released");
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    gameCanvas.player.velocity.multiply(0.1f);
                 }
             }
         });
@@ -77,7 +77,6 @@ public class GameWindow extends JFrame {
             if (currentTime - this.lastTime >= 17_000_000) {
                 this.gameCanvas.runAll();
                 this.gameCanvas.renderAll();
-                this.gameCanvas.playerMove();
                 this.lastTime = currentTime;
             }
         }

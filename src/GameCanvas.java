@@ -11,8 +11,10 @@ import java.util.Random;
 public class GameCanvas extends JPanel {
 
     private List<Star> stars;
-    private List<Enermy> enermies;
+    private List<Enemy> enemies;
     public Player player = new Player();
+
+    private Background background = new Background();
 
     private BufferedImage backBuffered;
 
@@ -21,7 +23,7 @@ public class GameCanvas extends JPanel {
     private Random random = new Random();
 
     private int timeIntervalStar = 0;
-    private int timeIntervalEnermy = 0;
+    private int timeIntervalEnemy = 0;
 
 
     public GameCanvas() {
@@ -42,7 +44,7 @@ public class GameCanvas extends JPanel {
 
     private void setupCharacter() {
         this.setupStar();
-        this.setupEnermy();
+        this.setupEnemy();
         this.setupPlayer();
     }
 
@@ -50,13 +52,13 @@ public class GameCanvas extends JPanel {
         this.stars = new ArrayList<>();
     }
 
-    private void setupEnermy() {
-        this.enermies = new ArrayList<>();
+    private void setupEnemy() {
+        this.enemies = new ArrayList<>();
     }
 
     private void setupPlayer() {
-        this.player.xPoints[0] = this.random.nextInt(1000);
-        this.player.yPoints[0] = this.random.nextInt(580);
+        this.player.position.set(200, 300);
+        this.player.velocity.set(3.5f, 0);
     }
 
     @Override
@@ -65,11 +67,11 @@ public class GameCanvas extends JPanel {
     }
 
     public void renderAll() {
-        this.renderBackground();
+        this.background.render(graphics);
 
         this.stars.forEach(star -> star.render(graphics));
 
-        this.enermies.forEach(enermy -> enermy.render(graphics));
+        this.enemies.forEach(enemy -> enemy.render(graphics));
 
         this.player.render(graphics);
 
@@ -79,21 +81,21 @@ public class GameCanvas extends JPanel {
     public void runAll() {
         this.createStar();
         this.stars.forEach(star -> star.run());
-        this.createEnermy();
-        this.enermies.forEach(enermy -> enermy.run());
-        this.createPlayer();
-        this.playerMove();
+
+        this.createEnemy();
+        this.enemies.forEach(enemy -> enemy.run());
+
+        this.player.run();
     }
 
     private void createStar() {
         if (this.timeIntervalStar == 30) {
             Star star = new Star();
-            star.x = 1024;
-            star.y = this.random.nextInt(600);
+            star.position.set(1024, this.random.nextInt(600));
             star.image = this.loadImage("resources/images/star.png");
             star.width = 15;
             star.height = 15;
-            star.velocityX = this.random.nextInt(3) + 1;
+            star.velocity.set(this.random.nextInt(3) + 1, 0);
             this.stars.add(star);
             this.timeIntervalStar = 0;
         } else {
@@ -102,58 +104,30 @@ public class GameCanvas extends JPanel {
 
     }
 
-    private void createEnermy() {
-        if (this.timeIntervalEnermy == 188) {
-            Enermy enermy = new Enermy();
-            enermy.x = this.random.nextInt(1024);
-            enermy.y = this.random.nextInt(600);
-            enermy.image = this.loadImage("resources/images/circle.png");
-            enermy.width = 8;
-            enermy.height = 8;
-            enermy.velocityX = this.random.nextInt(4) + 1;
-            enermy.velocityY = this.random.nextInt(4) + 1;
-            this.enermies.add(enermy);
-            this.timeIntervalEnermy = 0;
+    private void createEnemy() {
+        if (this.timeIntervalEnemy == 30) {
+            Enemy enemy = new Enemy();
+//            enemy.position.set(this.random.nextInt(1024), this.random.nextInt(600));
+            enemy.x = this.random.nextInt(1024);
+            enemy.y = this.random.nextInt(600);
+            enemy.width = 15;
+            enemy.height = 15;
+            enemy.image = this.loadImage("resources/images/circle.png");
+//            enemy.velocity.set(this.random.nextInt(3) + 1, this.random.nextInt(3) + 1);
+            enemy.velocityX = this.random.nextInt(3)+1;
+            enemy.velocityY = this.random.nextInt(3)+1;
+            this.enemies.add(enemy);
+            this.timeIntervalEnemy = 0;
         } else {
-            this.timeIntervalEnermy += 1;
+            this.timeIntervalEnemy += 1;
         }
 
     }
 
-    private void createPlayer() {
-//        Player player = new Player();
-        this.player.xPoints[1] = this.player.xPoints[0] + 20;
-        this.player.yPoints[1] = this.player.yPoints[0];
-
-        this.player.xPoints[2] = this.player.xPoints[0] + 20 / 2;
-        this.player.yPoints[2] = this.player.yPoints[0] - 17;
-
-        this.player.velocity = 7;
-    }
-
-    public void playerMove() {
-        if (player.xPoints[0] > 1024 && player.xPoints[1] > 1024 && player.xPoints[2] > 1024) {
-            player.xPoints[0] = 0;
-            createPlayer();
-        }
-        if (player.xPoints[0] < 0 && player.xPoints[1] < 0 && player.xPoints[2] < 0) {
-            player.xPoints[0] = 1024;
-            createPlayer();
-        }
-        if (player.yPoints[0] > 600 && player.yPoints[1] > 600 && player.yPoints[2] > 600) {
-            player.yPoints[0] = 0;
-            createPlayer();
-        }
-        if (player.yPoints[0] < 0 && player.yPoints[1] < 0 && player.yPoints[2] < 0) {
-            player.yPoints[0] = 600;
-            createPlayer();
-        }
-    }
-
-    private void renderBackground() {
-        this.graphics.setColor(Color.BLACK);
-        this.graphics.fillRect(0, 0, 1024, 600);
-    }
+//    private void renderBackground() {
+//        this.graphics.setColor(Color.BLACK);
+//        this.graphics.fillRect(0, 0, 1024, 600);
+//    }
 
     private BufferedImage loadImage(String path) {
         try {
