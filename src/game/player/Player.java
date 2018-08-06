@@ -1,11 +1,16 @@
+package game.player;
+
+import base.GameObject;
+import base.KeyboardInput;
+import base.Vector2D;
+import renderer.PolygonRenderer;
+
 import java.awt.*;
 import java.util.Random;
 
-public class Player {
+public class Player extends GameObject {
 
-    public Vector2D position;
     public Vector2D velocity;
-    public Renderer renderer;
 
     public double angle = 0.0;
     private Random random = new Random();
@@ -23,9 +28,11 @@ public class Player {
         this.playerShoot = new PlayerAttack();
     }
 
+    @Override
     public void run() {
-        this.position.addUp(this.velocity);
-        ((PolygonRenderer) this.renderer).angle = this.angle;
+        super.run();
+        this.position.addUp(this.velocity.rotate(KeyboardInput.instance.angle).multiply(KeyboardInput.instance.value));
+        ((PolygonRenderer) this.renderer).angle = KeyboardInput.instance.angle;
         this.backToScreen();
         this.playerShoot.run(this);
     }
@@ -35,12 +42,5 @@ public class Player {
         if (this.position.x < 0) this.position.set(1024, this.random.nextInt(600));
         if (this.position.y > 600) this.position.set(this.random.nextInt(1024), 0);
         if (this.position.y < 0) this.position.set(this.random.nextInt(1024), 600);
-    }
-
-    public void render(Graphics graphics) {
-        this.renderer.render(graphics, this.position);
-        ((PlayerAttack) this.playerShoot)
-                .bulletPlayers
-                .forEach(bulletPlayer -> bulletPlayer.render(graphics));
     }
 }
