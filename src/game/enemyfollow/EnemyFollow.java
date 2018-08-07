@@ -26,7 +26,6 @@ public class EnemyFollow extends GameObject {
                                 .subtract(this.position)
                                 .normalized()
                 ).multiply(1.5f);
-                break;
             }
         }
     }
