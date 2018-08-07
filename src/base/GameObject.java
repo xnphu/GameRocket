@@ -21,8 +21,4 @@ public class GameObject {
         if (this.renderer != null)
             this.renderer.render(graphics, this.position);
     }
-
-    public void update(){
-
-    }
 }

@@ -1,6 +1,5 @@
 package base;
 
-import game.player.Player;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ public class GameObjectManager {
 
     static public GameObjectManager instance = new GameObjectManager();
 
-    private List<GameObject> list;
+    public List<GameObject> list;
     private List<GameObject> tempList;
 
     private GameObjectManager() {

@@ -1,7 +1,9 @@
 package game.enemyfollow;
 
 import base.GameObject;
+import base.GameObjectManager;
 import base.Vector2D;
+import game.player.Player;
 import renderer.ImageRenderer;
 
 public class EnemyFollow extends GameObject {
@@ -17,16 +19,15 @@ public class EnemyFollow extends GameObject {
     public void run() {
         super.run();
         this.position.addUp(this.velocity);
-    }
-
-    @Override
-    public void update() {
-        super.update();
-        this.velocity.set(
-                position
-                        .subtract(this.position)
-                        .normalized()
-        ).multiply(1.5f);
-
+        for (int i = 0; i < GameObjectManager.instance.list.size(); i++) {
+            if (GameObjectManager.instance.list.get(i) instanceof Player ) {
+                this.velocity.set(
+                        GameObjectManager.instance.list.get(i).position
+                                .subtract(this.position)
+                                .normalized()
+                ).multiply(1.5f);
+                break;
+            }
+        }
     }
 }
