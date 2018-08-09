@@ -77,42 +77,21 @@ public class GameObjectManager {
                 .orElse(null);
     }
 
-    public Player checkcollision_3(BulletEnemy bulletEnemy) {
-        return (Player) this.list
-                .stream()
-                .filter(gameObject -> gameObject.isAlive)
-                .filter(gameObject -> gameObject instanceof Player)
-                .filter(gameObject -> {
-                    BoxCollider other = ((Player)gameObject).boxCollider;
-                    return bulletEnemy.boxCollider.checkCollision(other);
-                })
-                .findFirst()
-                .orElse(null);
+    public boolean checkcollision_3(BulletEnemy bulletEnemy) {
+        Player player = findPlayer();
+        BoxCollider other = player.boxCollider;
+        return bulletEnemy.boxCollider.checkCollision(other);
     }
 
-    public Player checkcollision_4(Enemy enemy) {
-        return (Player) this.list
-                .stream()
-                .filter(gameObject -> gameObject.isAlive)
-                .filter(gameObject -> gameObject instanceof Player)
-                .filter(gameObject -> {
-                    BoxCollider other = ((Player)gameObject).boxCollider;
-                    return enemy.boxCollider.checkCollision(other);
-                })
-                .findFirst()
-                .orElse(null);
+    public boolean checkcollision_4(Enemy enemy) {
+        Player player = findPlayer();
+        BoxCollider other = player.boxCollider;
+        return enemy.boxCollider.checkCollision(other);
     }
 
-    public Player checkcollision_5(EnemyFollow enemyFollow) {
-        return (Player) this.list
-                .stream()
-                .filter(gameObject -> gameObject.isAlive)
-                .filter(gameObject -> gameObject instanceof Player)
-                .filter(gameObject -> {
-                    BoxCollider other = ((Player)gameObject).boxCollider;
-                    return enemyFollow.boxCollider.checkCollision(other);
-                })
-                .findFirst()
-                .orElse(null);
+    public boolean checkcollision_5(EnemyFollow enemyFollow) {
+        Player player = findPlayer();
+        BoxCollider other = player.boxCollider;
+        return enemyFollow.boxCollider.checkCollision(other);
     }
 }

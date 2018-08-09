@@ -29,12 +29,12 @@ public class Enemy extends GameObject {
 
         this.boxCollider.position.set(this.position.x - 10, this.position.y - 10);
 
-
-        Player player = GameObjectManager.instance.checkcollision_4(this);
-        if (player != null) {
-            this.isAlive = false;
-            player.isAlive = false;
+        Player player = GameObjectManager.instance.findPlayer();
+        if(GameObjectManager.instance.checkcollision_4(this)) {
+            if (player != null) {
+                this.isAlive = false;
+                player.isAlive = false;
+            }
         }
-
     }
 }

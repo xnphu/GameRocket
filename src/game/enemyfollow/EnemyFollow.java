@@ -31,10 +31,9 @@ public class EnemyFollow extends GameObject {
             this.update(player.position);
         }
 
-        Player player1 = GameObjectManager.instance.checkcollision_5(this);
-        if(player1 != null) {
+        if (GameObjectManager.instance.checkcollision_5(this)) {
             this.isAlive = false;
-            player1.isAlive = false;
+            player.isAlive = false;
         }
     }
 

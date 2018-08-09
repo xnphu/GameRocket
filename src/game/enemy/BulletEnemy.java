@@ -26,10 +26,13 @@ public class BulletEnemy extends GameObject {
 
         this.boxCollider.position.set(this.position.x - 2.5f, this.position.y - 2.5f);
 
-        Player player = GameObjectManager.instance.checkcollision_3(this);
-        if (player != null) {
-            this.isAlive = false;
-            player.isAlive = false;
+        Player player = GameObjectManager.instance.findPlayer();
+        if (GameObjectManager.instance.checkcollision_3(this)) {
+            if (player != null) {
+                this.isAlive = false;
+                player.isAlive = false;
+            }
         }
     }
 }
+
