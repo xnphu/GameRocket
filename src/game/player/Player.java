@@ -1,23 +1,21 @@
 package game.player;
 
 import base.GameObject;
-import base.KeyboardInput;
 import base.Vector2D;
+import physic.BoxCollider;
 import renderer.PolygonRenderer;
 
 import java.awt.*;
-import java.util.Random;
 
 public class Player extends GameObject {
 
     public Vector2D velocity;
 
     public double angle = 0.0;
-    private Random random = new Random();
-    public PlayerShoot playerShoot;
+
+    public BoxCollider boxCollider;
 
     public Player() {
-        this.position = new Vector2D();
         this.velocity = new Vector2D();
 
         this.renderer = new PolygonRenderer(Color.CYAN,
@@ -25,22 +23,18 @@ public class Player extends GameObject {
                 new Vector2D(0, 16),
                 new Vector2D(20, 8)
         );
-        this.playerShoot = new PlayerAttack();
+        this.attributes.add(new PlayerShoot());
+        this.attributes.add(new PlayerMove());
+
+        this.boxCollider = new BoxCollider(20, 20);
+
     }
 
     @Override
     public void run() {
         super.run();
-        this.position.addUp(this.velocity.rotate(KeyboardInput.instance.angle).multiply(KeyboardInput.instance.value));
-        ((PolygonRenderer) this.renderer).angle = KeyboardInput.instance.angle;
-        this.backToScreen();
-        this.playerShoot.run(this);
-    }
+        ((PolygonRenderer) this.renderer).angle = this.angle;
 
-    private void backToScreen() {
-        if (this.position.x > 1024) this.position.set(0, this.random.nextInt(600));
-        if (this.position.x < 0) this.position.set(1024, this.random.nextInt(600));
-        if (this.position.y > 600) this.position.set(this.random.nextInt(1024), 0);
-        if (this.position.y < 0) this.position.set(this.random.nextInt(1024), 600);
+        this.boxCollider.position.set(this.position.x - 10, this.position.y - 10);
     }
 }

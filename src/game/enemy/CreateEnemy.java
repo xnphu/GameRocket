@@ -13,7 +13,7 @@ public class CreateEnemy extends GameObject {
 
     public CreateEnemy() {
         this.random = new Random();
-        this.frameCounter = new FrameCounter(200);
+        this.frameCounter = new FrameCounter(300);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class CreateEnemy extends GameObject {
         if (this.frameCounter.run()) {
             Enemy enemy = new Enemy();
             enemy.position.set(this.random.nextInt(1024), this.random.nextInt(600));
-            enemy.velocity.set(this.random.nextInt(3) + 1, this.random.nextInt(3) + 1);
+            enemy.velocity.set(this.random.nextInt(2) + 1, this.random.nextInt(2) + 1);
 
             GameObjectManager.instance.add(enemy);
             this.frameCounter.reset();
