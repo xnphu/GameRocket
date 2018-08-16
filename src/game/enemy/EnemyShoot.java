@@ -17,13 +17,12 @@ public class EnemyShoot implements Attribute<Enemy> {
     public void run(Enemy enemy) {
 
         if (this.frameCounter.run()) {
-            for (double angle = 0.0; angle < 360.0; angle += 360.0 / 15) {
-                BulletEnemy bulletEnemy = new BulletEnemy();
+            for (double angle = 0.0; angle < 360.0; angle += 360.0 / 5) {
+                BulletEnemy bulletEnemy = GameObjectManager.instance.recycle(BulletEnemy.class);
                 bulletEnemy.position.set(enemy.position.add(70,60));
                 bulletEnemy.velocity.set(
                         (new Vector2D(2, 0)).rotate(angle)
                 );
-                GameObjectManager.instance.add(bulletEnemy);
             }
             this.frameCounter.reset();
         }

@@ -20,11 +20,9 @@ public class CreateEnemy extends GameObject {
     public void run() {
         super.run();
         if (this.frameCounter.run()) {
-            Enemy enemy = new Enemy();
+            Enemy enemy = GameObjectManager.instance.recycle(Enemy.class);
             enemy.position.set(this.random.nextInt(1024), this.random.nextInt(600));
             enemy.velocity.set(this.random.nextInt(2) + 1, this.random.nextInt(2) + 1);
-
-            GameObjectManager.instance.add(enemy);
             this.frameCounter.reset();
         }
     }

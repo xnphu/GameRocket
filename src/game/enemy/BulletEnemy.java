@@ -1,13 +1,12 @@
 package game.enemy;
 
 import base.GameObject;
-import base.GameObjectManager;
 import base.Vector2D;
-import game.player.Player;
 import physic.BoxCollider;
+import physic.PhysicBody;
 import renderer.ImageRenderer;
 
-public class BulletEnemy extends GameObject {
+public class BulletEnemy extends GameObject implements PhysicBody {
 
     public Vector2D velocity;
 
@@ -26,13 +25,17 @@ public class BulletEnemy extends GameObject {
 
         this.boxCollider.position.set(this.position.x - 2.5f, this.position.y - 2.5f);
 
-        Player player = GameObjectManager.instance.findPlayer();
-        if (GameObjectManager.instance.checkcollision_3(this)) {
-            if (player != null) {
-                this.isAlive = false;
-                player.isAlive = false;
-            }
-        }
+    }
+
+    @Override
+    public void getHit(GameObject gameObject) {
+        this.isAlive = false;
+    }
+
+    @Override
+    public BoxCollider getBoxCollider() {
+        return this.boxCollider;
     }
 }
+
 
