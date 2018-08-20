@@ -6,7 +6,7 @@ import base.GameObjectManager;
 
 public class PlayerShoot implements Attribute<Player> {
 
-    private FrameCounter frameCounter = new FrameCounter(100);
+    private FrameCounter frameCounter = new FrameCounter(10);
 
     @Override
     public void run(Player gameObject) {

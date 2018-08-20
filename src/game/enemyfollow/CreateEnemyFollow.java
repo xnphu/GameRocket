@@ -1,5 +1,9 @@
 package game.enemyfollow;
 
+import action.ActionAdapter;
+import action.LimitAction;
+import action.SequenceAction;
+import action.WaitAction;
 import base.FrameCounter;
 import base.GameObject;
 import base.GameObjectManager;
@@ -14,16 +18,24 @@ public class CreateEnemyFollow extends GameObject {
     public CreateEnemyFollow() {
         this.random = new Random();
         this.frameCounter = new FrameCounter(400);
+        this.configAction();
     }
 
-    @Override
-    public void run(){
-        super.run();
-        if (this.frameCounter.run()) {
-            EnemyFollow enemyFollow = GameObjectManager.instance.recycle(EnemyFollow.class);
-            enemyFollow.position.set(this.random.nextInt(1024), this.random.nextInt(600));
-            enemyFollow.velocity.set(this.random.nextInt(3) + 1, this.random.nextInt(3) + 1);
-            this.frameCounter.reset();
-        }
+    public void configAction() {
+        this.addAction(
+                new LimitAction(70,
+                        new SequenceAction(
+                                new WaitAction(400),
+                                new ActionAdapter() {
+                                    @Override
+                                    public boolean run(GameObject owner) {
+                                        EnemyFollow enemyFollow = GameObjectManager.instance.recycle(EnemyFollow.class);
+                                        enemyFollow.position.set(random.nextInt(1024), random.nextInt(600));
+                                        return true;
+                                    }
+                                }
+                        )
+                )
+        );
     }
 }

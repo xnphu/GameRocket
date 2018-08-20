@@ -1,5 +1,6 @@
 package base;
 
+import action.Action;
 import renderer.Renderer;
 
 import java.awt.*;
@@ -16,18 +17,27 @@ public class GameObject {
 
     public boolean isAlive = true;
 
+    public List<Action> actions;
+
     public GameObject() {
         this.position = new Vector2D();
         this.attributes = new ArrayList<>();
+        this.actions = new ArrayList<>();
     }
 
     public void run() {
         this.attributes
                 .forEach(attribute -> attribute.run(this));
+
+        this.actions.removeIf(action -> action.run(this));
     }
 
     public void render(Graphics graphics) {
         if (this.renderer != null)
             this.renderer.render(graphics, this.position);
+    }
+
+    public void addAction(Action action) {
+        this.actions.add(action);
     }
 }
