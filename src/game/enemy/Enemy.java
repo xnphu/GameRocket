@@ -13,6 +13,7 @@ public class Enemy extends GameObject implements PhysicBody {
 
     public BoxCollider boxCollider;
 
+
     public Enemy() {
         this.renderer = new ImageRenderer("resources/images/circle.png", 20, 20);
         this.velocity = new Vector2D();
@@ -20,16 +21,13 @@ public class Enemy extends GameObject implements PhysicBody {
         this.attributes.add(new EnemyShoot());
     }
 
+
     @Override
     public void run() {
         super.run();
         this.position.addUp(this.velocity);
 
         this.boxCollider.position.set(this.position.x - 10, this.position.y - 10);
-
-        if (this.position.x > 1024 || this.position.y > 600) {
-            this.isAlive = false;
-        }
 
     }
 

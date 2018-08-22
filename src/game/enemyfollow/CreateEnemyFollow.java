@@ -13,11 +13,9 @@ import java.util.Random;
 public class CreateEnemyFollow extends GameObject {
 
     private Random random;
-    private FrameCounter frameCounter;
 
     public CreateEnemyFollow() {
         this.random = new Random();
-        this.frameCounter = new FrameCounter(400);
         this.configAction();
     }
 

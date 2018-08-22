@@ -19,7 +19,7 @@ public class EnemyShoot implements Attribute<Enemy> {
         if (this.frameCounter.run()) {
             for (double angle = 0.0; angle < 360.0; angle += 360.0 / 5) {
                 BulletEnemy bulletEnemy = GameObjectManager.instance.recycle(BulletEnemy.class);
-                bulletEnemy.position.set(gameObject.position.add(35,30));
+                bulletEnemy.position.set(gameObject.position);
                 bulletEnemy.velocity.set(
                         (new Vector2D(2, 0)).rotate(angle)
                 );
